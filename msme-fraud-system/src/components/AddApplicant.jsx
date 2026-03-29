@@ -34,7 +34,7 @@ const AddApplicant = () => {
     Object.keys(form).forEach((key) => data.append(key, form[key]));
 
     try {
-      const res = await axios.post("http://localhost:8080/api/applicants/register", data, {
+      const res = await axios.post("http://host.docker.internal:8080/api/applicants/register",data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setMessage(`Applicant ${res.data.name} added successfully! Fraud Score: ${res.data.fraudScore}`);

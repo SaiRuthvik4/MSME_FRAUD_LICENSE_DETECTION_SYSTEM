@@ -8,7 +8,7 @@ const Dashboard = () => {
   const [applicants, setApplicants] = useState([]);
 
   const fetchApplicants = async () => {
-    const res = await axios.get("http://localhost:8080/api/applicants");
+    const res = await axios.get("http://host.docker.internal:8080/api/applicants");
     setApplicants(res.data);
   };
 
