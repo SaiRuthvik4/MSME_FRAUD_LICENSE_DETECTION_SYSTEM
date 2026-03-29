@@ -1,0 +1,99 @@
+body, html {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f6d365, #fda085);
+  min-height: 100vh;
+}
+
+.app {
+  text-align: center;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #4e54c8;
+  color: white;
+}
+
+.navbar .nav-links a {
+  margin-left: 1rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.navbar .nav-links a:hover {
+  color: #ffd700;
+}
+
+.form-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: rgba(255,255,255,0.95);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0px 10px 20px rgba(0,0,0,0.2);
+}
+
+.form-container h2 {
+  margin-bottom: 1rem;
+  color: #4e54c8;
+}
+
+.form-container input,
+.form-container button {
+  width: 100%;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.form-container button {
+  background: #4e54c8;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.form-container button:hover {
+  background: #6c63ff;
+}
+
+.table-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  background: rgba(255,255,255,0.95);
+  padding: 1rem;
+  border-radius: 15px;
+  box-shadow: 0px 10px 20px rgba(0,0,0,0.2);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 0.8rem;
+  border-bottom: 1px solid #ddd;
+}
+
+table th {
+  background: #4e54c8;
+  color: white;
+}
+
+.fraud-score {
+  font-weight: bold;
+}
+
+.low { color: green; }
+.medium { color: orange; }
+.high { color: red; }
