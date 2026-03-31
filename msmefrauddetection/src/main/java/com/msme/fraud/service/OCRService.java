@@ -16,11 +16,13 @@ public class OCRService {
 
         try {
             ITesseract tesseract = new Tesseract();
-
-            // ✅ Correct tessdata path
-            tesseract.setDatapath("C:\\Program Files\\Tesseract-OCR\\tessdata");
+            tesseract.setDatapath(resolveTessDataPath());
 
             File file = new File(filePath);
+            if (!file.exists()) {
+                System.err.println("OCR file does not exist: " + filePath);
+                return "";
+            }
 
             String rawText = tesseract.doOCR(file);
 
@@ -28,8 +30,20 @@ public class OCRService {
             return rawText.replaceAll("[^A-Za-z0-9 ]", " ").toUpperCase();
 
         } catch (Exception e) {
-            throw new RuntimeException("OCR extraction failed: " + e.getMessage());
+            System.err.println("OCR extraction unavailable: " + e.getMessage());
+            return ""; // graceful fallback for deployment environments without Tesseract
         }
+    }
+
+    private String resolveTessDataPath() {
+        String path = System.getenv("TESSDATA_PATH");
+        if (path == null || path.isBlank()) {
+            path = System.getenv("TESSDATA_PREFIX");
+        }
+        if (path == null || path.isBlank()) {
+            path = "tessdata";
+        }
+        return path;
     }
 
     // 🔥 PAN EXTRACTION (STRICT)
