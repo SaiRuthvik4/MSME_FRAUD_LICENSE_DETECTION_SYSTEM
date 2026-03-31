@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/applicants")
 @CrossOrigin
@@ -65,13 +65,11 @@ public class ApplicantController {
             throw new RuntimeException("Both Aadhaar and PAN files are required");
         }
 
-        if (!aadhaarFile.getContentType().startsWith("image") &&
-            !aadhaarFile.getContentType().equals("application/pdf")) {
+        if (!isAllowedFileType(aadhaarFile)) {
             throw new RuntimeException("Invalid Aadhaar file type");
         }
 
-        if (!panFile.getContentType().startsWith("image") &&
-            !panFile.getContentType().equals("application/pdf")) {
+        if (!isAllowedFileType(panFile)) {
             throw new RuntimeException("Invalid PAN file type");
         }
 
@@ -139,6 +137,14 @@ public class ApplicantController {
 
         // ✅ 11. Save
         return repo.save(applicant);
+    }
+
+    private boolean isAllowedFileType(MultipartFile file) {
+        if (file == null || file.getContentType() == null) {
+            return false;
+        }
+        String contentType = file.getContentType();
+        return contentType.startsWith("image") || contentType.equals("application/pdf");
     }
 
     // 📌 GET ALL

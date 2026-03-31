@@ -10,26 +10,34 @@ import java.security.MessageDigest;
 @Service
 public class FileStorageService {
 
-    private final String UPLOAD_DIR = "uploads/";
+    private final String UPLOAD_DIR = System.getenv("UPLOAD_DIR");
+
+    private String getUploadDirectory() {
+        if (UPLOAD_DIR != null && !UPLOAD_DIR.isBlank()) {
+            return UPLOAD_DIR;
+        }
+        return System.getProperty("java.io.tmpdir") + File.separator + "uploads" + File.separator;
+    }
 
     // Save file and return file path
     public String saveFile(MultipartFile file) {
         try {
-            File dir = new File(UPLOAD_DIR);
+            String uploadDir = getUploadDirectory();
+            File dir = new File(uploadDir);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
 
-            String filePath = UPLOAD_DIR + System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            String filePath = uploadDir + System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
-            FileOutputStream fos = new FileOutputStream(filePath);
-            fos.write(file.getBytes());
-            fos.close();
+            try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                fos.write(file.getBytes());
+            }
 
             return filePath;
 
         } catch (Exception e) {
-            throw new RuntimeException("File upload failed");
+            throw new RuntimeException("File upload failed: " + e.getMessage());
         }
     }
 
