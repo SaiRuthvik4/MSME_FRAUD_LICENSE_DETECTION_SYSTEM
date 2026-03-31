@@ -29,8 +29,11 @@ public class OCRService {
             // 🔥 Clean text (important)
             return rawText.replaceAll("[^A-Za-z0-9 ]", " ").toUpperCase();
 
-        } catch (Exception e) {
-            System.err.println("OCR extraction unavailable: " + e.getMessage());
+        } catch (UnsatisfiedLinkError e) {
+            System.err.println("Tesseract native library unavailable: " + e.getMessage());
+            return "";
+        } catch (Throwable t) {
+            System.err.println("OCR extraction unavailable: " + t.getMessage());
             return ""; // graceful fallback for deployment environments without Tesseract
         }
     }
