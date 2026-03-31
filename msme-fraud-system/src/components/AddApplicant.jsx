@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { motion } from "framer-motion";
+import api from "../services/api"; // ✅ use your configured axios instance
 
 const AddApplicant = () => {
   const [form, setForm] = useState({
@@ -34,10 +34,14 @@ const AddApplicant = () => {
     Object.keys(form).forEach((key) => data.append(key, form[key]));
 
     try {
-      const res = await axios.post("http://host.docker.internal:8080/api/applicants/register",data, {
+      const res = await api.post("/api/applicants/register", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setMessage(`Applicant ${res.data.name} added successfully! Fraud Score: ${res.data.fraudScore}`);
+
+      setMessage(
+        `Applicant ${res.data.name} added successfully! Fraud Score: ${res.data.fraudScore}`
+      );
+
       setForm({
         name: "",
         mobile: "",
@@ -63,17 +67,83 @@ const AddApplicant = () => {
       transition={{ duration: 0.7 }}
     >
       <h2>Add Applicant</h2>
+
       <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Name" value={form.name} onChange={handleChange} required />
-        <input type="text" name="mobile" placeholder="Mobile" value={form.mobile} onChange={handleChange} required />
-        <input type="text" name="businessName" placeholder="Business Name" value={form.businessName} onChange={handleChange} required />
-        <input type="text" name="panNumber" placeholder="PAN Number" value={form.panNumber} onChange={handleChange} required />
-        <input type="text" name="aadhaarNumber" placeholder="Aadhaar Number" value={form.aadhaarNumber} onChange={handleChange} required />
-        <input type="text" name="gstNumber" placeholder="GST Number" value={form.gstNumber} onChange={handleChange} required />
-        <input type="file" name="aadhaarFile" accept="image/*,application/pdf" onChange={handleChange} required />
-        <input type="file" name="panFile" accept="image/*,application/pdf" onChange={handleChange} required />
-        <button type="submit" disabled={loading}>{loading ? "Submitting..." : "Submit"}</button>
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          value={form.name}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="text"
+          name="mobile"
+          placeholder="Mobile"
+          value={form.mobile}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="text"
+          name="businessName"
+          placeholder="Business Name"
+          value={form.businessName}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="text"
+          name="panNumber"
+          placeholder="PAN Number"
+          value={form.panNumber}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="text"
+          name="aadhaarNumber"
+          placeholder="Aadhaar Number"
+          value={form.aadhaarNumber}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="text"
+          name="gstNumber"
+          placeholder="GST Number"
+          value={form.gstNumber}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="file"
+          name="aadhaarFile"
+          accept="image/*,application/pdf"
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="file"
+          name="panFile"
+          accept="image/*,application/pdf"
+          onChange={handleChange}
+          required
+        />
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Submitting..." : "Submit"}
+        </button>
       </form>
+
       {message && <p>{message}</p>}
     </motion.div>
   );

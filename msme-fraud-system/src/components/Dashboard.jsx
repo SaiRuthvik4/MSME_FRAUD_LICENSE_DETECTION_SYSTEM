@@ -1,18 +1,23 @@
-// Dashboard.jsx
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import ApplicantTable from "./ApplicantTable";
 import { motion } from "framer-motion";
+import ApplicantTable from "./ApplicantTable";
+import api from "../services/api"; // ✅ use api instance
 
 const Dashboard = () => {
   const [applicants, setApplicants] = useState([]);
 
   const fetchApplicants = async () => {
-    const res = await axios.get("http://host.docker.internal:8080/api/applicants");
-    setApplicants(res.data);
+    try {
+      const res = await api.get("/api/applicants"); // ✅ correct call
+      setApplicants(res.data);
+    } catch (error) {
+      console.error("Error fetching applicants:", error);
+    }
   };
 
-  useEffect(() => { fetchApplicants(); }, []);
+  useEffect(() => {
+    fetchApplicants();
+  }, []);
 
   return (
     <motion.div
