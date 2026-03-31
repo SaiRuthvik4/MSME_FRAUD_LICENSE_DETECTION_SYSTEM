@@ -19,7 +19,6 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/applicants")
-@CrossOrigin
 public class ApplicantController {
 
     @Autowired
