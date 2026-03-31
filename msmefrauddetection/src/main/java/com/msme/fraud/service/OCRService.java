@@ -16,7 +16,10 @@ public class OCRService {
 
         try {
             ITesseract tesseract = new Tesseract();
-            tesseract.setDatapath(resolveTessDataPath());
+            String tessDataPath = resolveTessDataPath();
+            if (tessDataPath != null) {
+                tesseract.setDatapath(tessDataPath);
+            }
 
             File file = new File(filePath);
             if (!file.exists()) {
@@ -44,7 +47,7 @@ public class OCRService {
             path = System.getenv("TESSDATA_PREFIX");
         }
         if (path == null || path.isBlank()) {
-            path = "tessdata";
+            return null;
         }
         return path;
     }
