@@ -30,9 +30,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGeneralException(Exception ex) {
         ex.printStackTrace();
+        String message = ex.getMessage();
+        if (message == null || message.isBlank()) {
+            message = ex.toString();
+        }
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponse("FAIL", ex.getMessage()));
+                .body(new ErrorResponse("FAIL", message));
     }
 
     // ✅ Custom response class
