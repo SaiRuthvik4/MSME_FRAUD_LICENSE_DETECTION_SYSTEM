@@ -34,9 +34,7 @@ const AddApplicant = () => {
     Object.keys(form).forEach((key) => data.append(key, form[key]));
 
     try {
-      const res = await api.post("/api/applicants/register", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await api.post("/api/applicants/register", data);
 
       setMessage(
         `Applicant ${res.data.name} added successfully! Fraud Score: ${res.data.fraudScore}`
